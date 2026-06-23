@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://localhost:11434/api/tags)",
+      "Bash(python -c \"import sys,json; [print\\(m['name']\\) for m in json.load\\(sys.stdin\\)['models']]\")",
+      "Bash(python server.py 8000)",
+      "Bash(curl -s -o /dev/null -w \"index:%{http_code}\\\\n\" http://localhost:8000/)",
+      "Bash(curl -s -o /dev/null -w \"app.js:%{http_code}\\\\n\" http://localhost:8000/js/app.js)",
+      "Bash(curl -s http://localhost:8000/ollama/api/tags)",
+      "Bash(time curl -s -X POST http://localhost:8000/ollama/api/chat -H \"Content-Type: application/json\" -d '{\"model\":\"qwen2.5:3b\",\"format\":\"json\",\"stream\":false,\"messages\":[{\"role\":\"user\",\"content\":\"Return JSON {\\\\\"ok\\\\\":true}\"}]}')",
+      "mcp__Claude_Preview__preview_start",
+      "PowerShell(Stop-Process -Id 23204 -Force -Confirm:$false)",
+      "PowerShell(Test-NetConnection -ComputerName localhost -Port 8000 -InformationLevel Quiet -WarningAction SilentlyContinue)"
+    ]
+  }
+}

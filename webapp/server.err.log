@@ -1,0 +1,317 @@
+  "GET / HTTP/1.1" 200 -
+  "GET /ollama/api/tags HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 58337)
+Traceback (most recent call last):
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 438, in handle
+    self.handle_one_request()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 404, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 720, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+----------------------------------------
+  "GET / HTTP/1.1" 200 -
+  "GET /js/app.js HTTP/1.1" 200 -
+  "GET /css/styles.css HTTP/1.1" 200 -
+  "GET /js/config.js HTTP/1.1" 200 -
+  "GET /js/seat3d.js HTTP/1.1" 200 -
+  "GET /js/voice.js HTTP/1.1" 200 -
+  "GET /js/ollama.js HTTP/1.1" 200 -
+  "GET /js/i18n.js HTTP/1.1" 200 -
+  "GET /js/ui.js HTTP/1.1" 200 -
+  "GET /assets/uno_sleep.glb HTTP/1.1" 200 -
+  "GET /assets/uno_rest.glb HTTP/1.1" 200 -
+  "GET /assets/uno_seat.obj HTTP/1.1" 200 -
+  code 404, message Not Found
+  "GET /assets/intro.mp4 HTTP/1.1" 404 -
+  "GET /ollama/api/tags HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 51368)
+Traceback (most recent call last):
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 438, in handle
+    self.handle_one_request()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 78, in do_POST
+    self._proxy_ollama()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 67, in _proxy_ollama
+    self.wfile.write(data)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+----------------------------------------
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 62014)
+Traceback (most recent call last):
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 438, in handle
+    self.handle_one_request()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 78, in do_POST
+    self._proxy_ollama()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 67, in _proxy_ollama
+    self.wfile.write(data)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+----------------------------------------
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 53733)
+Traceback (most recent call last):
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 438, in handle
+    self.handle_one_request()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 78, in do_POST
+    self._proxy_ollama()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 67, in _proxy_ollama
+    self.wfile.write(data)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+----------------------------------------
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 55249)
+Traceback (most recent call last):
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 438, in handle
+    self.handle_one_request()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 78, in do_POST
+    self._proxy_ollama()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 67, in _proxy_ollama
+    self.wfile.write(data)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+----------------------------------------
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 61371)
+Traceback (most recent call last):
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 78, in do_POST
+    self._proxy_ollama()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 67, in _proxy_ollama
+    self.wfile.write(data)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+----------------------------------------
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 64643)
+Traceback (most recent call last):
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 78, in do_POST
+    self._proxy_ollama()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 67, in _proxy_ollama
+    self.wfile.write(data)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+----------------------------------------
+  "GET / HTTP/1.1" 200 -
+  "GET /css/styles.css HTTP/1.1" 200 -
+  "GET /js/app.js HTTP/1.1" 200 -
+  "GET /js/config.js HTTP/1.1" 200 -
+  "GET /js/voice.js HTTP/1.1" 200 -
+  "GET /js/seat3d.js HTTP/1.1" 200 -
+  "GET /js/ui.js HTTP/1.1" 200 -
+  "GET /js/ollama.js HTTP/1.1" 200 -
+  "GET /js/i18n.js HTTP/1.1" 200 -
+  "GET /assets/uno_rest.glb HTTP/1.1" 200 -
+  "GET /assets/uno_sleep.glb HTTP/1.1" 200 -
+  "GET /assets/uno_seat.obj HTTP/1.1" 200 -
+  code 404, message Not Found
+  "GET /assets/intro.mp4 HTTP/1.1" 404 -
+  "GET /ollama/api/tags HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 62402)
+Traceback (most recent call last):
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 78, in do_POST
+    self._proxy_ollama()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 67, in _proxy_ollama
+    self.wfile.write(data)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+----------------------------------------
+  "GET / HTTP/1.1" 200 -
+  "GET /css/styles.css HTTP/1.1" 200 -
+  "GET /js/app.js HTTP/1.1" 200 -
+  "GET /js/config.js HTTP/1.1" 200 -
+  "GET /js/seat3d.js HTTP/1.1" 200 -
+  "GET /js/voice.js HTTP/1.1" 200 -
+  "GET /js/ollama.js HTTP/1.1" 200 -
+  "GET /js/ui.js HTTP/1.1" 200 -
+  "GET /js/i18n.js HTTP/1.1" 200 -
+  "GET /assets/uno_sleep.glb HTTP/1.1" 200 -
+  "GET /assets/uno_rest.glb HTTP/1.1" 200 -
+  "GET /assets/uno_seat.obj HTTP/1.1" 200 -
+  code 404, message Not Found
+  "GET /assets/intro.mp4 HTTP/1.1" 404 -
+  "GET /ollama/api/tags HTTP/1.1" 200 -
+  "GET / HTTP/1.1" 200 -
+  "GET /css/styles.css HTTP/1.1" 200 -
+  "GET /js/app.js HTTP/1.1" 200 -
+  "GET /js/config.js HTTP/1.1" 200 -
+  "GET /js/ollama.js HTTP/1.1" 200 -
+  "GET /js/ui.js HTTP/1.1" 200 -
+  "GET /js/seat3d.js HTTP/1.1" 200 -
+  "GET /js/voice.js HTTP/1.1" 200 -
+  "GET /js/i18n.js HTTP/1.1" 200 -
+  "GET /assets/uno_rest.glb HTTP/1.1" 200 -
+  "GET /assets/uno_sleep.glb HTTP/1.1" 200 -
+  "GET /assets/uno_seat.obj HTTP/1.1" 200 -
+  code 404, message Not Found
+  "GET /assets/intro.mp4 HTTP/1.1" 404 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 50060)
+Traceback (most recent call last):
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 78, in do_POST
+    self._proxy_ollama()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 67, in _proxy_ollama
+    self.wfile.write(data)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+----------------------------------------
+  "GET /ollama/api/tags HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "GET / HTTP/1.1" 200 -
+  "GET /css/styles.css HTTP/1.1" 200 -
+  "GET /js/app.js HTTP/1.1" 200 -
+  "GET /js/config.js HTTP/1.1" 200 -
+  "GET /js/seat3d.js HTTP/1.1" 200 -
+  "GET /js/voice.js HTTP/1.1" 200 -
+  "GET /js/ollama.js HTTP/1.1" 200 -
+  "GET /js/i18n.js HTTP/1.1" 200 -
+  "GET /js/ui.js HTTP/1.1" 200 -
+  "GET /assets/uno_rest.glb HTTP/1.1" 200 -
+  "GET /assets/uno_sleep.glb HTTP/1.1" 200 -
+  "GET /assets/uno_seat.obj HTTP/1.1" 200 -
+  code 404, message Not Found
+  "GET /assets/intro.mp4 HTTP/1.1" 404 -
+  "GET /ollama/api/tags HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 65414)
+Traceback (most recent call last):
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 438, in handle
+    self.handle_one_request()
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 78, in do_POST
+    self._proxy_ollama()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 67, in _proxy_ollama
+    self.wfile.write(data)
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+----------------------------------------
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -
+  "POST /ollama/api/chat HTTP/1.1" 200 -

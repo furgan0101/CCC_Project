@@ -1,0 +1,40 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama-data:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  ollama-model:
+    image: ollama/ollama:latest
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["ollama pull $${OLLAMA_MODEL:-qwen2.5:3b}"]
+    restart: "no"
+
+  webapp:
+    build:
+      context: ./webapp
+    depends_on:
+      ollama:
+        condition: service_healthy
+      ollama-model:
+        condition: service_completed_successfully
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+      SERVER_HOST: 0.0.0.0
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+volumes:
+  ollama-data:

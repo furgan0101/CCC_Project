@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>RECARO R7 · Seat Experience</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.161.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.161.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body class="grain">
+  <div id="app">
+
+    <!-- ============ INTRO / VIDEO ============ -->
+    <section id="intro">
+      <video id="introVideo" playsinline muted></video>
+      <div class="intro-fallback" id="introFallback">
+        <div class="rings"><span></span><span></span><span></span></div>
+        <div class="center">
+          <div class="brand">RECARO&nbsp;R7</div>
+          <div class="tag">Living comfort · in the sky</div>
+          <div class="hint">Your personal wellbeing journey is about to begin</div>
+        </div>
+      </div>
+      <button class="skip-btn" id="skipBtn">
+        Skip
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 4l10 8-10 8V4zM19 5v14" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </section>
+
+    <!-- ============ INTAKE MODAL ============ -->
+    <div class="modal-scrim" id="intakeScrim">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="intakeTitle">
+        <div class="intake-lang-row">
+          <span data-i18n="intake_lang">Language</span>
+          <select class="lang-select" id="intakeLangSelect" aria-label="Language"></select>
+        </div>
+        <div class="eyebrow" data-i18n="intake_eyebrow">Personal comfort profile</div>
+        <h2 id="intakeTitle" data-i18n="intake_title">Welcome aboard</h2>
+        <p class="sub" data-i18n="intake_sub">Tell us a little about you, and our cabin assistant will tailor your
+          seat and gentle movement plan for the whole flight.</p>
+
+        <div class="field">
+          <label data-i18n="intake_mode">Choose how you'd like to control your seat</label>
+          <div class="mode-select" id="modeSelect">
+            <button type="button" class="mode-card" data-mode="easy">
+              <span class="m-ic">🌿</span>
+              <span class="m-name" data-i18n="mode_easy">Easy</span>
+              <span class="m-desc" data-i18n="mode_easy_desc"></span>
+            </button>
+            <button type="button" class="mode-card" data-mode="normal">
+              <span class="m-ic">⚖️</span>
+              <span class="m-name" data-i18n="mode_normal">Normal</span>
+              <span class="m-desc" data-i18n="mode_normal_desc"></span>
+            </button>
+            <button type="button" class="mode-card" data-mode="advanced">
+              <span class="m-ic">🎛️</span>
+              <span class="m-name" data-i18n="mode_advanced">Advanced</span>
+              <span class="m-desc" data-i18n="mode_advanced_desc"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="ageVal" data-i18n="intake_age">How old are you?</label>
+          <div class="age-stepper">
+            <button id="ageMinus" aria-label="decrease age">−</button>
+            <div class="age-val"><span id="ageVal">68</span></div>
+            <button id="agePlus" aria-label="increase age">+</button>
+            <div class="age-unit" data-i18n="years">years</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label><span data-i18n="intake_pain">Where do you feel discomfort?</span>
+            <span style="font-weight:400;color:var(--ink-soft)" data-i18n="choose_any">(choose any)</span></label>
+          <div class="chips" id="painChips"></div>
+          <div class="help" data-i18n="intake_pain_help">No discomfort at all? Simply continue without selecting.</div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="intakeSubmit" data-i18n="intake_submit">Create my comfort plan</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ MAIN DASHBOARD ============ -->
+    <main id="dashboard">
+      <header class="topbar">
+        <div class="logo"><b>RECARO</b> R7<span>Business Class</span></div>
+        <div class="flight-clock">
+          <span class="phase" id="phaseLabel">Cruise</span>
+          <div class="bar"><i id="flightBar"></i></div>
+          <span class="time" id="flightTime">0h 00m</span>
+        </div>
+        <div class="right">
+          <span class="ai-tag"><span class="status-dot off" id="aiDot"></span><span id="aiLabel">AI</span></span>
+          <select class="lang-select" id="langSelect" aria-label="Language"></select>
+          <button class="round-toggle" id="settingsBtn" aria-label="Comfort profile and mode" data-i18n-title="tip_settings">⚙</button>
+          <button class="round-toggle" id="speechToggle" aria-pressed="false" data-i18n-title="tip_speech">🔇</button>
+          <button class="round-toggle no-easy" id="voiceToggle" aria-pressed="false" data-i18n-title="tip_voice">🎤</button>
+          <span class="mic-label easy-only" data-i18n="press_speak">Press &amp; speak</span>
+          <button class="mic-btn hidden" id="micBtn" aria-label="Voice command" data-i18n-title="tip_mic">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/>
+              <path d="M19 10v1a7 7 0 0 1-14 0v-1M12 19v3"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="stage" id="stage">
+        <!-- HERO: 3D seat -->
+        <section class="seat-stage">
+          <div class="seat-badge">
+            <div class="label" data-i18n="label_live_seat">Live seat</div>
+            <h3 id="seatModeName">Upright</h3>
+          </div>
+          <div class="stow-chip" data-i18n-title="stow_tip">
+            <span class="sensor-dot" id="sensorDot"></span>
+            <span id="sensorText">Compartment empty</span>
+            <button id="sensorDemo">Place item</button>
+          </div>
+          <canvas id="seatCanvas"></canvas>
+          <div class="seat-readout" id="seatReadout"></div>
+          <div class="orbit-hint" data-i18n="orbit_hint">drag to rotate · scroll to zoom</div>
+        </section>
+
+        <!-- SIDE PANEL: Plan ▸ Seat ▸ Help -->
+        <aside class="side-panel" id="sidePanel">
+          <div class="tab-bar">
+            <button class="tab on" data-tab="plan"><span class="t-ic">📋</span><span class="t-label" data-i18n="tab_plan">Plan</span></button>
+            <button class="tab" data-tab="seat"><span class="t-ic">🎚️</span><span class="t-label" data-i18n="tab_seat">Seat</span></button>
+            <button class="tab" data-tab="help"><span class="t-ic">❔</span><span class="t-label" data-i18n="tab_help">Help</span></button>
+            <button class="collapse-btn" id="panelCollapse" aria-label="Collapse panel">›</button>
+          </div>
+
+          <!-- PLAN -->
+          <div class="tab-content active" id="tab-plan">
+            <div class="label" data-i18n="label_assistant">Cabin assistant</div>
+            <h3 data-i18n="plan_title">Your comfort plan</h3>
+            <div class="ai-tag" id="planSource"></div>
+            <div class="plan-scroll">
+              <div class="plan-intro" id="planIntro"></div>
+              <div class="timeline" id="timeline"></div>
+            </div>
+          </div>
+
+          <!-- SEAT CONTROLS -->
+          <div class="tab-content" id="tab-seat">
+            <div class="label" data-i18n="label_seat_control">Seat control</div>
+            <div class="preset-row" id="presetRow"></div>
+            <button type="button" class="save-preset-btn adv-only" id="savePresetBtn">
+              <span class="ic">⭐</span><span data-i18n="save_preset">Save current position</span>
+            </button>
+
+            <div id="fineControls" class="no-easy">
+              <div class="ctrl">
+                <span class="ctrl-name" data-i18n="recline">Recline</span>
+                <div class="ctrl-inline">
+                  <button data-ctrl="recline" data-dir="-1" aria-label="Less recline">−</button>
+                  <input class="ctrl-slider" type="range" min="0" max="100" data-slider="recline" aria-label="Recline">
+                  <b id="reclineVal">0%</b>
+                  <button data-ctrl="recline" data-dir="1" aria-label="More recline">+</button>
+                </div>
+              </div>
+              <div class="ctrl">
+                <span class="ctrl-name" data-i18n="headrest">Headrest</span>
+                <div class="ctrl-inline">
+                  <button data-ctrl="headrest" data-dir="-1" aria-label="Lower headrest">−</button>
+                  <input class="ctrl-slider" type="range" min="0" max="100" data-slider="headrest" aria-label="Headrest">
+                  <b id="headrestVal">50%</b>
+                  <button data-ctrl="headrest" data-dir="1" aria-label="Raise headrest">+</button>
+                </div>
+              </div>
+              <div class="ctrl">
+                <span class="ctrl-name" data-i18n="legrest">Leg rest</span>
+                <div class="ctrl-inline">
+                  <button data-ctrl="legrest" data-dir="-1" aria-label="Lower leg rest">−</button>
+                  <input class="ctrl-slider" type="range" min="0" max="100" data-slider="legrest" aria-label="Leg rest">
+                  <b id="legrestVal">0%</b>
+                  <button data-ctrl="legrest" data-dir="1" aria-label="Raise leg rest">+</button>
+                </div>
+              </div>
+              <div class="ctrl">
+                <span class="ctrl-name" data-i18n="lumbar">Lumbar</span>
+                <div class="ctrl-inline">
+                  <button data-ctrl="lumbar" data-dir="-1" aria-label="Less lumbar support">−</button>
+                  <input class="ctrl-slider" type="range" min="0" max="100" data-slider="lumbar" aria-label="Lumbar">
+                  <b id="lumbarVal">30%</b>
+                  <button data-ctrl="lumbar" data-dir="1" aria-label="More lumbar support">+</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="ctrl">
+              <span class="ctrl-name" data-i18n="climate">Seat climate</span>
+              <div class="seg" id="climateSeg">
+                <button data-climate="cool" aria-label="Cool seat">❄</button>
+                <button data-climate="off" class="on" aria-label="Climate off">○</button>
+                <button data-climate="warm" aria-label="Warm seat">☀</button>
+              </div>
+            </div>
+
+            <div class="ctrl adv-only" id="intensityCtrl">
+              <span class="ctrl-name" data-i18n="massage_intensity">Massage intensity</span>
+              <div class="ctrl-inline">
+                <input class="ctrl-slider" type="range" min="10" max="100" value="100" id="intensitySlider" aria-label="Massage intensity">
+                <b id="intensityVal">100%</b>
+              </div>
+            </div>
+
+            <div class="massage-grid" style="margin-top:12px">
+              <button class="massage-btn" data-massage="back"><span class="ic">💆</span><span data-i18n="mass_back">Back</span></button>
+              <button class="massage-btn" data-massage="lumbar"><span class="ic">🌀</span><span data-i18n="mass_lumbar">Lumbar</span></button>
+              <button class="massage-btn" data-massage="legs"><span class="ic">🦵</span><span data-i18n="mass_legs">Legs</span></button>
+            </div>
+            <div class="massage-grid" style="margin-top:10px">
+              <button class="assist-btn" id="lightBtn"><span class="ic">💡</span><span data-i18n="light">Reading light</span></button>
+              <button class="assist-btn no-easy" id="dndBtn"><span class="ic">🌙</span><span data-i18n="dnd">Do not disturb</span></button>
+              <button class="assist-btn" id="attendantBtn"><span class="ic">🔔</span><span data-i18n="attendant">Attendant</span></button>
+            </div>
+          </div>
+
+          <!-- HELP -->
+          <div class="tab-content" id="tab-help">
+            <div class="label" data-i18n="tab_help">Help</div>
+            <h3 data-i18n="help_voice_title">Try saying…</h3>
+            <div class="say-chips">
+              <button class="say-chip" data-say="ex_bed"><span class="ic">🛏️</span><span data-i18n="ex_bed">Make my bed</span></button>
+              <button class="say-chip" data-say="ex_upright"><span class="ic">🪑</span><span data-i18n="ex_upright">Sit me upright</span></button>
+              <button class="say-chip" data-say="ex_headrest"><span class="ic">⬆️</span><span data-i18n="ex_headrest">Raise the headrest</span></button>
+              <button class="say-chip" data-say="ex_massage"><span class="ic">💆</span><span data-i18n="ex_massage">Start a back massage</span></button>
+              <button class="say-chip" data-say="ex_light"><span class="ic">💡</span><span data-i18n="ex_light">Turn on the reading light</span></button>
+              <button class="say-chip" data-say="ex_warm"><span class="ic">☀️</span><span data-i18n="ex_warm">Warm my seat</span></button>
+              <button class="say-chip" data-say="ex_attendant"><span class="ic">🔔</span><span data-i18n="ex_attendant">Please call the attendant</span></button>
+              <button class="say-chip" data-say="ex_dnd"><span class="ic">🌙</span><span data-i18n="ex_dnd">Do not disturb</span></button>
+            </div>
+            <h3 data-i18n="help_tips_title" style="margin-top:8px">Good to know</h3>
+            <ul class="tips">
+              <li data-i18n="help_tip_type"></li>
+              <li class="easy-only" data-i18n="help_tip_easy_mic"></li>
+              <li class="no-easy" data-i18n="help_tip_mic"></li>
+              <li data-i18n="help_tip_speech"></li>
+              <li data-i18n="help_tip_lang"></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      <div class="caption">
+        <span class="who" data-i18n="who_assistant">Assistant</span>
+        <span class="text" id="captionText"></span>
+        <form class="cmd-form" id="cmdForm">
+          <input id="cmdInput" type="text" data-i18n-ph="cmd_placeholder" placeholder="Type a request" autocomplete="off" aria-label="Type a request" />
+          <button class="cmd-send" type="submit" aria-label="Send request">➤</button>
+        </form>
+      </div>
+    </main>
+
+    <!-- ============ LISTENING OVERLAY ============ -->
+    <div class="listen-overlay" id="listenOverlay">
+      <div class="listen-rings"><span></span><span></span><span></span></div>
+      <div class="listen-orb">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1a1208" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/>
+          <path d="M19 10v1a7 7 0 0 1-14 0v-1M12 19v3"/>
+        </svg>
+      </div>
+      <div class="listen-bars"><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="listen-text" data-i18n="listening">Listening…</div>
+      <div class="listen-hint" id="listenHint"></div>
+      <div class="listen-cancel" data-i18n="tap_to_cancel">Tap anywhere to cancel</div>
+    </div>
+
+    <!-- Toasts -->
+    <div class="toast-wrap" id="toastWrap"></div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

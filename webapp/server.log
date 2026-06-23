@@ -1,0 +1,11 @@
+
+  RECARO R7  ·  Seat Experience
+Traceback (most recent call last):
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 128, in <module>
+    main()
+  File "C:\Users\furga\IdeaProjects\Furgans project\webapp\server.py", line 117, in main
+    print("  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500")
+  File "C:\Users\furga\AppData\Local\Programs\Python\Python312\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 2-30: character maps to <undefined>
