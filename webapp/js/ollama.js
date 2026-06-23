@@ -126,7 +126,7 @@ export async function parseCommand(text, lang) {
       const sys =
         `You translate a spoken seat command (any language) into one JSON action. ` +
         `Valid intents: recline, upright, bed, relax, headrest_up, headrest_down, ` +
-        `legrest_up, legrest_down, lumbar_more, lumbar_less, massage_start, massage_stop, ` +
+        `legrest_up, legrest_down, legrest_back, lumbar_more, lumbar_less, massage_start, massage_stop, ` +
         `light_on, light_off, attendant, dnd_on, dnd_off, climate_warm, climate_cool, climate_off, help, unknown. ` +
         `For massage include "zone": "back"|"lumbar"|"legs"|"all". ` +
         `"reply" is a short friendly confirmation SENTENCE written in the passenger's language ` +
@@ -206,7 +206,10 @@ function keywordCommand(text) {
   if (any("cool", "cold", "kühl", "kalt", "froid", "frío", "fredd", "制冷", "ठंड", "برّد", "冷や")) return { intent: off ? "climate_off" : "climate_cool" };
   if (any("recline", "lean back", "zurücklehn", "incline", "倾斜", "झुक")) return { intent: "recline" };
   if (any("head", "kopf", "tête", "cabeza", "testa", "头枕", "सिर", "رأس", "ヘッド")) return { intent: any("down", "lower", "runter", "baja", "下") ? "headrest_down" : "headrest_up" };
-  if (any("leg rest", "legrest", "footrest", "feet", "foot", "beinauflage", "repose", "腿托", "レッグ")) return { intent: any("down", "lower", "runter", "下") ? "legrest_down" : "legrest_up" };
+  if (any("leg rest", "legrest", "footrest", "feet", "foot", "beinauflage", "repose", "腿托", "レッグ", "पैर", "ساق")) {
+    if (any("back", "backward", "behind", "zurück", "arrière", "atrás", "indietro", "后", "後", "पीछे", "خلف")) return { intent: "legrest_back" };
+    return { intent: any("down", "lower", "runter", "下", "baja", "नीचे") ? "legrest_down" : "legrest_up" };
+  }
   if (any("lumbar support", "lordose", "lombaire", "腰托")) return { intent: any("less", "weniger", "menos", "弱") ? "lumbar_less" : "lumbar_more" };
   if (any("light", "lamp", "licht", "luz", "lumière", "lampe", "灯", "बत्ती", "ضوء", "読書灯")) return { intent: off ? "light_off" : "light_on" };
   if (any("attendant", "steward", "crew", "hostess", "azafata", "équipage", "乘务", "परिचारक", "مضيف", "乗務")) return { intent: "attendant" };

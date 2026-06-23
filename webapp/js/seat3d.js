@@ -25,8 +25,7 @@ export function createSeat(canvas) {
   controls.maxDistance = 9;
   controls.maxPolarAngle = Math.PI * 0.52;
   controls.target.set(0, 1.0, 0);
-  controls.autoRotate = true;
-  controls.autoRotateSpeed = 0.5;
+  controls.autoRotate = false;   // never auto-spin (drag to rotate only)
 
   // ---- Lighting (soft studio) ----
   scene.add(new THREE.HemisphereLight(0xbfcae0, 0x20242c, 0.85));
@@ -258,6 +257,9 @@ export function createSeat(canvas) {
     // back slightly so it overlaps the pan front (no seam gap). Driven by the leg-rest
     // control only, so recline never moves it.
     leg:  { rot: [0, -30, -90], fwd: [0, 0, -0.04], up: [0, 0.05, 0.12] },
+    headSlide: 0.16,   // headrest up/down travel along the backrest (headrest control)
+    legBack: 100,      // deg of backward leg-rest tilt per unit (legrest = -0.2 → 20° back)
+    slideAmt: 0.38,    // manual pan+leg forward glide distance (Advanced toggle)
   };
   function kf(a, t) {
     if (t <= 0) return a[0]; if (t >= 1) return a[2];
@@ -346,7 +348,24 @@ export function createSeat(canvas) {
     // that upper edge stays connected to the lowerrest through the whole fold.
     hingeAt("legrest", seam("legrest", (v, bb) => v.y > bb.max.y - (bb.max.y - bb.min.y) * 0.18));
     // seat pan rides with the assembly (no rotation, just the forward slide)
-    if (rig.parts.lowerrest) assembly.attach(rig.parts.lowerrest);
+    if (rig.parts.lowerrest) {
+      assembly.attach(rig.parts.lowerrest);
+      rig.parts.lowerrest.userData.restZ = rig.parts.lowerrest.position.z;
+    }
+    // Headrest is parented to the backrest pivot, so it inherits the recline angle
+    // ("same angle as the backrest, moves with it"); the headrest control then
+    // slides it up/down along the backrest's local axis like a real headrest.
+    if (rig.pivots.backrest && rig.parts.headrest) {
+      rig.pivots.backrest.attach(rig.parts.headrest);
+      rig.parts.headrest.userData.rest = rig.parts.headrest.position.clone();
+    }
+    // backrest2 / backrest3 are alternate lumbar-support shapes for the Back-support
+    // control (None = backrest, Medium = backrest2, Max = backrest3). Hang them on the
+    // same pivot so they recline identically; only the active one is shown (poseParts).
+    ["backrest2", "backrest3"].forEach((n) => {
+      const o = rig.parts[n];
+      if (o && rig.pivots.backrest) { rig.pivots.backrest.attach(o); o.visible = false; }
+    });
 
     // Sit the stow-demo item inside the CAD model's storage compartment.
     const comp = rig.parts.compartment;
@@ -377,17 +396,30 @@ export function createSeat(canvas) {
   function poseParts() {
     const d2r = THREE.MathUtils.degToRad, r = cur.recline, L = cur.legrest;
     const A = rig.assembly, pb = rig.pivots.backrest, pg = rig.pivots.legrest;
+    const slide = (cur.slideFwd || 0) * KIN.slideAmt;   // manual pan+leg forward glide (Advanced)
     if (A) A.position.z = A.userData.restZ + kf(KIN.seat.fwd, r);   // whole seat slides forward
     if (pb) {                                                       // recline about fixed joint + small lap to hide the join
       pb.rotation.x = d2r(kf(KIN.back.rot, r));
       pb.position.z = pb.userData.rest.z + kf(KIN.back.fwd, r);
       pb.position.y = pb.userData.rest.y + kf(KIN.back.drop, r);
     }
-    if (pg) {                          // footrest lifts about its fixed rear joint — driven by the leg-rest control only
-      pg.rotation.x = d2r(kf(KIN.leg.rot, L));
-      pg.position.z = pg.userData.rest.z + kf(KIN.leg.fwd, L);
-      pg.position.y = pg.userData.rest.y + kf(KIN.leg.up, L);
+    // Back-support variant: show backrest (None) / backrest2 (Medium) / backrest3 (Max).
+    const bv = cur.lumbar < 0.25 ? "backrest" : (cur.lumbar < 0.75 ? "backrest2" : "backrest3");
+    for (const n of ["backrest", "backrest2", "backrest3"]) {
+      const o = rig.parts[n]; if (o) o.visible = (n === bv);
     }
+    // Headrest follows the backrest angle (parented to pb) and slides up/down with
+    // the headrest control — 0.5 is its rest height.
+    const ph = rig.parts.headrest;
+    if (ph && ph.userData.rest) ph.position.y = ph.userData.rest.y + (cur.headrest - 0.5) * KIN.headSlide;
+    if (pg) {                          // leg-rest: lift toward flat (L>0), or tuck ~20° back (L<0)
+      pg.rotation.x = d2r(L >= 0 ? kf(KIN.leg.rot, L) : (-L * KIN.legBack));
+      pg.position.z = pg.userData.rest.z + (L >= 0 ? kf(KIN.leg.fwd, L) : 0) + slide;
+      pg.position.y = pg.userData.rest.y + (L >= 0 ? kf(KIN.leg.up, L) : 0);
+    }
+    // Seat pan glides forward with the leg-rest on the manual slide; backrest stays put.
+    const lr = rig.parts.lowerrest;
+    if (lr && lr.userData.restZ !== undefined) lr.position.z = lr.userData.restZ + slide;
   }
 
   // Climate tint reaches the CAD model materials.
@@ -398,8 +430,9 @@ export function createSeat(canvas) {
   }
 
   // ============ STATE & ANIMATION ============
-  const target = { recline: 0, headrest: 0.5, legrest: 0, lumbar: 0.3 };
+  const target = { recline: 0, headrest: 0.5, legrest: 0, lumbar: 0.3, slideFwd: 0 };
   const cur = { ...target };
+  const BOUNDS = { legrest: [-0.2, 1] };   // leg-rest may tuck 20° back (−0.2); others default 0–1
   const massage = { back: 0, lumbar: 0, legs: 0 }; // target intensities
   const massageCur = { back: 0, lumbar: 0, legs: 0 };
   let massageGain = 1;                              // global strength (Advanced intensity slider)
@@ -482,11 +515,15 @@ export function createSeat(canvas) {
   const api = {
     setTarget(key, value) {
       if (!(key in target)) return;
-      target[key] = THREE.MathUtils.clamp(value, 0, 1);
+      const [lo, hi] = BOUNDS[key] || [0, 1];
+      target[key] = THREE.MathUtils.clamp(value, lo, hi);
       controls.autoRotate = false;
       onUpdate && onUpdate(getState());
     },
     nudge(key, delta) { this.setTarget(key, (target[key] ?? 0) + delta); },
+    // Advanced: glide the seat pan + leg-rest forward (backrest stays put).
+    setSlideForward(on) { this.setTarget("slideFwd", on ? 1 : 0); },
+    isSlideForward() { return target.slideFwd > 0.5; },
     setMassage(zone, on) {
       const v = on ? massageGain : 0;
       if (zone === "all") { massage.back = massage.lumbar = massage.legs = v; }
@@ -516,6 +553,12 @@ export function createSeat(canvas) {
       return { ...modelInfo, modelMode, parts: Object.keys(rig.parts),
         pivots: Object.keys(rig.pivots), triangles: renderer.info.render.triangles };
     },
+    // World-space position of a named rig part (debug/verification, e.g. headrest).
+    debugPart(name) {
+      const o = rig.parts[name]; if (!o) return null;
+      const p = new THREE.Vector3(); o.getWorldPosition(p);
+      return { x: +p.x.toFixed(3), y: +p.y.toFixed(3), z: +p.z.toFixed(3), visible: o.visible };
+    },
     // World-space bbox of the loaded CAD model.
     getPartBounds() {
       if (!rig.scene) return {};
@@ -524,7 +567,10 @@ export function createSeat(canvas) {
     },
     // Tune part kinematics live, e.g. R7.seat.setKin({back:{rot:[0,-26,-82]}}).
     setKin(patch) {
-      for (const k of Object.keys(patch)) KIN[k] = { ...KIN[k], ...patch[k] };
+      for (const k of Object.keys(patch)) {
+        KIN[k] = (typeof patch[k] === "object" && typeof KIN[k] === "object")
+          ? { ...KIN[k], ...patch[k] } : patch[k];
+      }
       applyPose();
     },
     getKin() { return JSON.parse(JSON.stringify(KIN)); },

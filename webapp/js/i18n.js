@@ -126,6 +126,10 @@ const STRINGS = {
   massage_intensity:"Massage intensity", save_preset:"Save current position",
   preset_saved:"Saved — you'll find it with your seat positions.", my_preset:"My position",
   help_tip_easy_mic:"Tap the big microphone any time and simply speak — no setup needed.",
+  back_support:"Back support", lvl_none:"None", lvl_med:"Medium", lvl_max:"Max",
+  slide_fwd:"Slide seat forward", reply_legrest_back:"Tilting the leg rest back.", ex_legrest_back:"Move leg rest back",
+  tip_demo:"Pause the demo timeline & pop-ups", demo_pause:"Pause demo", demo_resume:"Resume demo",
+  msg_demo_paused:"Demo paused — no pop-ups will appear.", msg_demo_resumed:"Demo resumed.",
 },
 
 "de-DE": {
@@ -227,6 +231,10 @@ const STRINGS = {
   massage_intensity:"Massageintensität", save_preset:"Aktuelle Position speichern",
   preset_saved:"Gespeichert — Sie finden sie bei Ihren Sitzpositionen.", my_preset:"Meine Position",
   help_tip_easy_mic:"Tippen Sie jederzeit auf das große Mikrofon und sprechen Sie einfach — ohne Einrichtung.",
+  back_support:"Rückenstütze", lvl_none:"Keine", lvl_med:"Mittel", lvl_max:"Max",
+  slide_fwd:"Sitz nach vorne schieben", reply_legrest_back:"Ich neige die Beinauflage zurück.", ex_legrest_back:"Beinauflage zurück",
+  tip_demo:"Demo-Ablauf & Pop-ups pausieren", demo_pause:"Demo pausieren", demo_resume:"Demo fortsetzen",
+  msg_demo_paused:"Demo pausiert — es erscheinen keine Pop-ups.", msg_demo_resumed:"Demo fortgesetzt.",
 },
 
 "es-ES": {
@@ -328,6 +336,10 @@ const STRINGS = {
   massage_intensity:"Intensidad del masaje", save_preset:"Guardar posición actual",
   preset_saved:"Guardada: la encontrará en sus posiciones.", my_preset:"Mi posición",
   help_tip_easy_mic:"Toque el micrófono grande cuando quiera y simplemente hable, sin configurar nada.",
+  back_support:"Soporte lumbar", lvl_none:"Ninguno", lvl_med:"Medio", lvl_max:"Máx.",
+  slide_fwd:"Adelantar el asiento", reply_legrest_back:"Inclino el reposapiernas hacia atrás.", ex_legrest_back:"Reposapiernas atrás",
+  tip_demo:"Pausar la demo y los avisos", demo_pause:"Pausar demo", demo_resume:"Reanudar demo",
+  msg_demo_paused:"Demo en pausa: no aparecerán avisos.", msg_demo_resumed:"Demo reanudada.",
 },
 
 "fr-FR": {
@@ -429,6 +441,10 @@ const STRINGS = {
   massage_intensity:"Intensité du massage", save_preset:"Enregistrer la position actuelle",
   preset_saved:"Enregistrée — vous la retrouverez dans vos positions.", my_preset:"Ma position",
   help_tip_easy_mic:"Touchez le grand micro à tout moment et parlez simplement, sans réglage.",
+  back_support:"Soutien lombaire", lvl_none:"Aucun", lvl_med:"Moyen", lvl_max:"Max",
+  slide_fwd:"Avancer le siège", reply_legrest_back:"J'incline le repose-jambes vers l'arrière.", ex_legrest_back:"Repose-jambes en arrière",
+  tip_demo:"Mettre en pause la démo et les pop-ups", demo_pause:"Pause démo", demo_resume:"Reprendre la démo",
+  msg_demo_paused:"Démo en pause — aucun pop-up n'apparaîtra.", msg_demo_resumed:"Démo reprise.",
 },
 
 "it-IT": {
@@ -530,6 +546,10 @@ const STRINGS = {
   massage_intensity:"Intensità del massaggio", save_preset:"Salva posizione attuale",
   preset_saved:"Salvata: la troverà tra le sue posizioni.", my_preset:"La mia posizione",
   help_tip_easy_mic:"Tocchi il microfono grande quando vuole e parli semplicemente, senza configurazioni.",
+  back_support:"Supporto schiena", lvl_none:"Nessuno", lvl_med:"Medio", lvl_max:"Max",
+  slide_fwd:"Avanza il sedile", reply_legrest_back:"Inclino il poggiagambe all'indietro.", ex_legrest_back:"Poggiagambe indietro",
+  tip_demo:"Metti in pausa la demo e i pop-up", demo_pause:"Pausa demo", demo_resume:"Riprendi demo",
+  msg_demo_paused:"Demo in pausa: nessun pop-up apparirà.", msg_demo_resumed:"Demo ripresa.",
 },
 
 "ar-SA": {
@@ -631,6 +651,10 @@ const STRINGS = {
   massage_intensity:"شدّة التدليك", save_preset:"حفظ الوضعية الحالية",
   preset_saved:"تم الحفظ — ستجدها ضمن وضعياتك.", my_preset:"وضعيتي",
   help_tip_easy_mic:"المس الميكروفون الكبير في أي وقت وتحدّث ببساطة — دون أي إعداد.",
+  back_support:"دعم الظهر", lvl_none:"بدون", lvl_med:"متوسط", lvl_max:"أقصى",
+  slide_fwd:"تحريك المقعد للأمام", reply_legrest_back:"أُميل مسند الساقين للخلف.", ex_legrest_back:"مسند الساقين للخلف",
+  tip_demo:"إيقاف العرض التوضيحي والإشعارات مؤقتاً", demo_pause:"إيقاف العرض", demo_resume:"استئناف العرض",
+  msg_demo_paused:"تم إيقاف العرض مؤقتاً — لن تظهر إشعارات.", msg_demo_resumed:"تم استئناف العرض.",
 },
 
 "zh-CN": {
@@ -732,6 +756,10 @@ const STRINGS = {
   massage_intensity:"按摩力度", save_preset:"保存当前姿态",
   preset_saved:"已保存——可在您的座椅姿态中找到。", my_preset:"我的姿态",
   help_tip_easy_mic:"随时点击大麦克风，直接说话即可——无需任何设置。",
+  back_support:"背部支撑", lvl_none:"无", lvl_med:"中", lvl_max:"最大",
+  slide_fwd:"座椅前移", reply_legrest_back:"正在将腿托向后倾。", ex_legrest_back:"腿托后移",
+  tip_demo:"暂停演示流程和弹窗", demo_pause:"暂停演示", demo_resume:"继续演示",
+  msg_demo_paused:"演示已暂停——不会出现弹窗。", msg_demo_resumed:"演示已继续。",
 },
 
 "hi-IN": {
@@ -833,6 +861,10 @@ const STRINGS = {
   massage_intensity:"मसाज तीव्रता", save_preset:"वर्तमान स्थिति सहेजें",
   preset_saved:"सहेज लिया — यह आपकी स्थितियों में मिलेगी।", my_preset:"मेरी स्थिति",
   help_tip_easy_mic:"जब चाहें बड़े माइक्रोफ़ोन को छुएँ और बस बोलें — कोई सेटअप नहीं।",
+  back_support:"पीठ सहारा", lvl_none:"कोई नहीं", lvl_med:"मध्यम", lvl_max:"अधिकतम",
+  slide_fwd:"सीट आगे खिसकाएँ", reply_legrest_back:"पैर का सहारा पीछे झुका रहा हूँ।", ex_legrest_back:"पैर का सहारा पीछे",
+  tip_demo:"डेमो टाइमलाइन और पॉप-अप रोकें", demo_pause:"डेमो रोकें", demo_resume:"डेमो जारी रखें",
+  msg_demo_paused:"डेमो रुका — कोई पॉप-अप नहीं आएगा।", msg_demo_resumed:"डेमो फिर शुरू।",
 },
 
 "ja-JP": {
@@ -934,5 +966,9 @@ const STRINGS = {
   massage_intensity:"マッサージ強度", save_preset:"現在の姿勢を保存",
   preset_saved:"保存しました — 姿勢の一覧にあります。", my_preset:"マイ姿勢",
   help_tip_easy_mic:"大きなマイクをいつでもタップして、そのままお話しください。設定は不要です。",
+  back_support:"背中のサポート", lvl_none:"なし", lvl_med:"中", lvl_max:"最大",
+  slide_fwd:"シートを前へ", reply_legrest_back:"レッグレストを後ろに倒します。", ex_legrest_back:"レッグレストを後ろへ",
+  tip_demo:"デモの進行とポップアップを一時停止", demo_pause:"デモを一時停止", demo_resume:"デモを再開",
+  msg_demo_paused:"デモを一時停止しました — ポップアップは表示されません。", msg_demo_resumed:"デモを再開しました。",
 },
 };

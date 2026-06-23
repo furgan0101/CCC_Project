@@ -45,45 +45,46 @@
         </div>
         <div class="eyebrow" data-i18n="intake_eyebrow">Personal comfort profile</div>
         <h2 id="intakeTitle" data-i18n="intake_title">Welcome aboard</h2>
-        <p class="sub" data-i18n="intake_sub">Tell us a little about you, and our cabin assistant will tailor your
-          seat and gentle movement plan for the whole flight.</p>
 
-        <div class="field">
-          <label data-i18n="intake_mode">Choose how you'd like to control your seat</label>
-          <div class="mode-select" id="modeSelect">
-            <button type="button" class="mode-card" data-mode="easy">
-              <span class="m-ic">🌿</span>
-              <span class="m-name" data-i18n="mode_easy">Easy</span>
-              <span class="m-desc" data-i18n="mode_easy_desc"></span>
-            </button>
-            <button type="button" class="mode-card" data-mode="normal">
-              <span class="m-ic">⚖️</span>
-              <span class="m-name" data-i18n="mode_normal">Normal</span>
-              <span class="m-desc" data-i18n="mode_normal_desc"></span>
-            </button>
-            <button type="button" class="mode-card" data-mode="advanced">
-              <span class="m-ic">🎛️</span>
-              <span class="m-name" data-i18n="mode_advanced">Advanced</span>
-              <span class="m-desc" data-i18n="mode_advanced_desc"></span>
-            </button>
-          </div>
-        </div>
+        <div class="intake-grid">
+          <section class="intake-section">
+            <label data-i18n="intake_age">How old are you?</label>
+            <div class="age-options" id="ageOptions" aria-label="Age range">
+              <button type="button" class="age-option" data-age-value="18" data-age-min="1" data-age-max="29">1-29</button>
+              <button type="button" class="age-option" data-age-value="45" data-age-min="30" data-age-max="59">30-59</button>
+              <button type="button" class="age-option" data-age-value="68" data-age-min="60" data-age-max="89">60-89</button>
+              <button type="button" class="age-option" data-age-value="92" data-age-min="90" data-age-max="120">89-120</button>
+            </div>
+            <span id="ageVal" class="hidden">68</span>
+          </section>
 
-        <div class="field">
-          <label for="ageVal" data-i18n="intake_age">How old are you?</label>
-          <div class="age-stepper">
-            <button id="ageMinus" aria-label="decrease age">−</button>
-            <div class="age-val"><span id="ageVal">68</span></div>
-            <button id="agePlus" aria-label="increase age">+</button>
-            <div class="age-unit" data-i18n="years">years</div>
-          </div>
-        </div>
+          <section class="intake-section intake-section-pain">
+            <label><span data-i18n="intake_pain">Where do you feel discomfort?</span>
+              <span class="muted-label" data-i18n="choose_any">(choose any)</span></label>
+            <div class="chips" id="painChips"></div>
+            <div class="help" data-i18n="intake_pain_help">No discomfort at all? Simply continue without selecting.</div>
+          </section>
 
-        <div class="field">
-          <label><span data-i18n="intake_pain">Where do you feel discomfort?</span>
-            <span style="font-weight:400;color:var(--ink-soft)" data-i18n="choose_any">(choose any)</span></label>
-          <div class="chips" id="painChips"></div>
-          <div class="help" data-i18n="intake_pain_help">No discomfort at all? Simply continue without selecting.</div>
+          <section class="intake-section">
+            <label data-i18n="intake_mode">Choose how you'd like to control your seat</label>
+            <div class="mode-select" id="modeSelect">
+              <button type="button" class="mode-card" data-mode="easy">
+                <span class="m-ic">🌿</span>
+                <span class="m-name" data-i18n="mode_easy">Easy</span>
+                <span class="m-desc" data-i18n="mode_easy_desc"></span>
+              </button>
+              <button type="button" class="mode-card" data-mode="normal">
+                <span class="m-ic">⚖️</span>
+                <span class="m-name" data-i18n="mode_normal">Normal</span>
+                <span class="m-desc" data-i18n="mode_normal_desc"></span>
+              </button>
+              <button type="button" class="mode-card" data-mode="advanced">
+                <span class="m-ic">🎛️</span>
+                <span class="m-name" data-i18n="mode_advanced">Advanced</span>
+                <span class="m-desc" data-i18n="mode_advanced_desc"></span>
+              </button>
+            </div>
+          </section>
         </div>
 
         <div class="btn-row">
@@ -101,6 +102,9 @@
           <div class="bar"><i id="flightBar"></i></div>
           <span class="time" id="flightTime">0h 00m</span>
         </div>
+        <button class="demo-toggle" id="demoToggle" data-i18n-title="tip_demo">
+          <span class="d-ic" id="demoIcon">⏸</span><span id="demoLabel" data-i18n="demo_pause">Pause demo</span>
+        </button>
         <div class="right">
           <span class="ai-tag"><span class="status-dot off" id="aiDot"></span><span id="aiLabel">AI</span></span>
           <select class="lang-select" id="langSelect" aria-label="Language"></select>
@@ -162,6 +166,15 @@
               <span class="ic">⭐</span><span data-i18n="save_preset">Save current position</span>
             </button>
 
+            <div class="ctrl" id="backSupportCtrl">
+              <span class="ctrl-name" data-i18n="back_support">Back support</span>
+              <div class="seg seg-text" id="backSeg">
+                <button data-back="0" data-i18n="lvl_none" aria-label="No back support">None</button>
+                <button data-back="0.5" data-i18n="lvl_med" aria-label="Medium back support">Medium</button>
+                <button data-back="1" data-i18n="lvl_max" aria-label="Maximum back support">Max</button>
+              </div>
+            </div>
+
             <div id="fineControls" class="no-easy">
               <div class="ctrl">
                 <span class="ctrl-name" data-i18n="recline">Recline</span>
@@ -184,19 +197,10 @@
               <div class="ctrl">
                 <span class="ctrl-name" data-i18n="legrest">Leg rest</span>
                 <div class="ctrl-inline">
-                  <button data-ctrl="legrest" data-dir="-1" aria-label="Lower leg rest">−</button>
-                  <input class="ctrl-slider" type="range" min="0" max="100" data-slider="legrest" aria-label="Leg rest">
+                  <button data-ctrl="legrest" data-dir="-1" aria-label="Tilt leg rest back">−</button>
+                  <input class="ctrl-slider" type="range" min="-20" max="100" data-slider="legrest" aria-label="Leg rest">
                   <b id="legrestVal">0%</b>
                   <button data-ctrl="legrest" data-dir="1" aria-label="Raise leg rest">+</button>
-                </div>
-              </div>
-              <div class="ctrl">
-                <span class="ctrl-name" data-i18n="lumbar">Lumbar</span>
-                <div class="ctrl-inline">
-                  <button data-ctrl="lumbar" data-dir="-1" aria-label="Less lumbar support">−</button>
-                  <input class="ctrl-slider" type="range" min="0" max="100" data-slider="lumbar" aria-label="Lumbar">
-                  <b id="lumbarVal">30%</b>
-                  <button data-ctrl="lumbar" data-dir="1" aria-label="More lumbar support">+</button>
                 </div>
               </div>
             </div>
@@ -218,6 +222,10 @@
               </div>
             </div>
 
+            <button type="button" class="assist-btn adv-only wide-toggle" id="slideFwdBtn">
+              <span class="ic">⇥</span><span data-i18n="slide_fwd">Slide seat forward</span>
+            </button>
+
             <div class="massage-grid" style="margin-top:12px">
               <button class="massage-btn" data-massage="back"><span class="ic">💆</span><span data-i18n="mass_back">Back</span></button>
               <button class="massage-btn" data-massage="lumbar"><span class="ic">🌀</span><span data-i18n="mass_lumbar">Lumbar</span></button>
@@ -225,7 +233,7 @@
             </div>
             <div class="massage-grid" style="margin-top:10px">
               <button class="assist-btn" id="lightBtn"><span class="ic">💡</span><span data-i18n="light">Reading light</span></button>
-              <button class="assist-btn no-easy" id="dndBtn"><span class="ic">🌙</span><span data-i18n="dnd">Do not disturb</span></button>
+              <button class="assist-btn" id="dndBtn"><span class="ic">🌙</span><span data-i18n="dnd">Do not disturb</span></button>
               <button class="assist-btn" id="attendantBtn"><span class="ic">🔔</span><span data-i18n="attendant">Attendant</span></button>
             </div>
           </div>
@@ -238,6 +246,7 @@
               <button class="say-chip" data-say="ex_bed"><span class="ic">🛏️</span><span data-i18n="ex_bed">Make my bed</span></button>
               <button class="say-chip" data-say="ex_upright"><span class="ic">🪑</span><span data-i18n="ex_upright">Sit me upright</span></button>
               <button class="say-chip" data-say="ex_headrest"><span class="ic">⬆️</span><span data-i18n="ex_headrest">Raise the headrest</span></button>
+              <button class="say-chip" data-say="ex_legrest_back"><span class="ic">🦵</span><span data-i18n="ex_legrest_back">Move leg rest back</span></button>
               <button class="say-chip" data-say="ex_massage"><span class="ic">💆</span><span data-i18n="ex_massage">Start a back massage</span></button>
               <button class="say-chip" data-say="ex_light"><span class="ic">💡</span><span data-i18n="ex_light">Turn on the reading light</span></button>
               <button class="say-chip" data-say="ex_warm"><span class="ic">☀️</span><span data-i18n="ex_warm">Warm my seat</span></button>

@@ -9,7 +9,7 @@ bpy.ops.wm.open_mainfile(filepath=BLEND)
 if bpy.context.view_layer.objects.active and bpy.context.object.mode != 'OBJECT':
     bpy.ops.object.mode_set(mode='OBJECT')
 
-PARTS = ["Mesh_0", "armrest", "legrest", "lowerrest", "backrest", "compartment"]
+PARTS = ["Mesh_0", "armrest", "legrest", "lowerrest", "backrest", "backrest2", "backrest3", "headrest", "compartment"]
 
 # one shared textured material (parts keep the original UVs from Mesh_0)
 img = bpy.data.images.load(TEX)

@@ -11,6 +11,7 @@ CONFIG.flightHours = CONFIG.flight.totalHours;
 const $ = (id) => document.getElementById(id);
 let seat, voice, currentLang = "en-US";
 let voiceEnabled = false, speechOn = false, dnd = false, readingLight = false, climateMode = "off";
+let demoPaused = false, demoPausedAt = 0;   // "stop demo" — freezes the flight + suppresses pop-ups
 const profile = { age: 68, pains: [], lang: currentLang, mode: "normal" };
 let plan = null;
 let uiMode = "normal";            // experience mode: "easy" | "normal" | "advanced"
@@ -146,9 +147,23 @@ function openIntake(opts = {}) {
   const ageVal = $("ageVal");
   let age = profile.age || 68;
   ageVal.textContent = age;
-  const setAge = (a) => { age = Math.max(18, Math.min(105, a)); ageVal.textContent = age; };
-  $("agePlus").onclick = () => setAge(age + 1);
-  $("ageMinus").onclick = () => setAge(age - 1);
+  const ageOptions = [...document.querySelectorAll("#ageOptions .age-option")];
+  const setAge = (a) => {
+    age = Math.max(1, Math.min(120, a));
+    let activeLabel = age;
+    ageOptions.forEach((btn) => {
+      const min = +btn.dataset.ageMin;
+      const max = +btn.dataset.ageMax;
+      const active = age >= min && age <= max;
+      btn.classList.toggle("on", active);
+      if (active) activeLabel = btn.textContent;
+    });
+    ageVal.textContent = activeLabel;
+  };
+  ageOptions.forEach((btn) => {
+    btn.onclick = () => setAge(+btn.dataset.ageValue);
+  });
+  setAge(age);
 
   // Pain chips — pre-selected from the saved profile so an edit keeps prior choices.
   const wrap = $("painChips");
@@ -176,7 +191,8 @@ function openIntake(opts = {}) {
 
   // Swap the copy + primary-button label between first-run and edit.
   $("intakeTitle").dataset.i18n = intakeEditing ? "intake_title_edit" : "intake_title";
-  document.querySelector("#intakeScrim .sub").dataset.i18n = intakeEditing ? "intake_sub_edit" : "intake_sub";
+  const intakeSub = document.querySelector("#intakeScrim .sub");
+  if (intakeSub) intakeSub.dataset.i18n = intakeEditing ? "intake_sub_edit" : "intake_sub";
   $("intakeSubmit").dataset.i18n = intakeEditing ? "intake_save" : "intake_submit";
   applyI18n();
 
@@ -286,6 +302,18 @@ function initDashboard() {
     btn.onclick = () => setClimate(btn.dataset.climate, true);
   });
 
+  // Back support — 3 fixed levels (None / Medium / Max) drive the lumbar; all modes.
+  document.querySelectorAll("#backSeg button").forEach((btn) => {
+    btn.onclick = () => seat.setTarget("lumbar", parseFloat(btn.dataset.back));
+  });
+
+  // Slide the seat pan + leg-rest forward, leaving the backrest put (Advanced toggle).
+  $("slideFwdBtn").onclick = () => {
+    const on = !seat.isSlideForward();
+    seat.setSlideForward(on);
+    $("slideFwdBtn").classList.toggle("on", on);
+  };
+
   // Languages — topbar + intake selects stay in sync.
   populateLangSelect($("langSelect"));
   populateLangSelect($("intakeLangSelect"));
@@ -294,6 +322,8 @@ function initDashboard() {
 
   // Re-open the comfort profile (age · discomfort · mode) at any time.
   $("settingsBtn").onclick = () => openIntake({ edit: true });
+  // Stop/resume the demo (pauses pop-ups for live presentations) — all modes.
+  $("demoToggle").onclick = () => setDemoPaused(!demoPaused);
   // While editing (not first run), allow dismissing the popup without changes.
   $("intakeScrim").addEventListener("click", (e) => {
     if (intakeEditing && e.target === $("intakeScrim")) { $("intakeScrim").classList.remove("open"); intakeEditing = false; }
@@ -392,7 +422,6 @@ function updateReadouts(state) {
   $("reclineVal").textContent = pct(state.recline);
   $("headrestVal").textContent = pct(state.headrest);
   $("legrestVal").textContent = pct(state.legrest);
-  $("lumbarVal").textContent = pct(state.lumbar);
 
   // Massage button states
   document.querySelectorAll("[data-massage]").forEach((btn) => {
@@ -402,6 +431,12 @@ function updateReadouts(state) {
   // Keep the Advanced sliders in step with the live seat state.
   document.querySelectorAll("[data-slider]").forEach((sl) => {
     sl.value = Math.round((state[sl.dataset.slider] ?? 0) * 100);
+  });
+
+  // Back-support segment: highlight the closest of None / Medium / Max to the lumbar value.
+  const closestBack = [0, 0.5, 1].reduce((a, b) => Math.abs(b - state.lumbar) < Math.abs(a - state.lumbar) ? b : a);
+  document.querySelectorAll("#backSeg button").forEach((b) => {
+    b.classList.toggle("on", parseFloat(b.dataset.back) === closestBack);
   });
 
   // Preset highlight + name (saved custom presets aren't in PRESETS — skip them)
@@ -457,6 +492,7 @@ function executeIntent(intent, zone) {
     case "headrest_down": seat.nudge("headrest", -0.25); break;
     case "legrest_up":    seat.nudge("legrest", 0.3); break;
     case "legrest_down":  seat.nudge("legrest", -0.3); break;
+    case "legrest_back":  seat.setTarget("legrest", -0.2); break;
     case "lumbar_more":   seat.nudge("lumbar", 0.25); break;
     case "lumbar_less":   seat.nudge("lumbar", -0.25); break;
     case "massage_start": seat.setMassage(zone || "back", true); break;
@@ -549,7 +585,7 @@ function startFlight() {
   // Simulate the passenger stowing an item after boarding — the pressure
   // sensor picks it up and the assistant acknowledges it quietly.
   setTimeout(() => {
-    if (!compartmentItem) {
+    if (!compartmentItem && !demoPaused) {
       setCompartmentState(true);
       showToast({
         icon: "🧳", title: t("stowed_title"), body: t("stowed_body"),
@@ -557,6 +593,26 @@ function startFlight() {
       });
     }
   }, 6000);
+}
+
+// "Stop demo" — pause the simulated flight (clock + scheduled pop-ups) so the seat
+// can be shown during a live presentation without interruptions. Resuming doesn't
+// count the paused time, so the timeline picks up where it left off.
+function setDemoPaused(on) {
+  if (on === demoPaused) return;
+  demoPaused = on;
+  if (on) {
+    demoPausedAt = performance.now();
+    document.querySelectorAll(".toast").forEach((el) => el.remove());   // clear any open pop-ups
+  } else if (demoPausedAt) {
+    flightStart += performance.now() - demoPausedAt;
+  }
+  $("demoToggle").classList.toggle("paused", on);
+  $("demoIcon").textContent = on ? "▶" : "⏸";
+  $("demoLabel").dataset.i18n = on ? "demo_resume" : "demo_pause";
+  $("demoLabel").textContent = t(on ? "demo_resume" : "demo_pause");
+  const msg = t(on ? "msg_demo_paused" : "msg_demo_resumed");
+  setCaption(msg); say(msg);
 }
 
 function currentFlightHour() {
@@ -573,6 +629,7 @@ function resyncSchedule() {
 }
 
 function flightTick() {
+  if (demoPaused) return;   // demo stopped for a presentation — freeze clock + pop-ups
   const hour = currentFlightHour();
   const frac = hour / CONFIG.flight.totalHours;
 
@@ -614,21 +671,7 @@ function fireScheduleItem(item, i) {
   // Do-not-disturb: skip suggestions quietly (no movement, no voice, no toast).
   // The pre-landing compartment reminder is safety-relevant and bypasses this.
   if (dnd) return;
-  // Easy mode is AI-led: the assistant proactively ASKS before doing anything,
-  // so every step is a clear yes/no prompt (there is no plan tab to read).
-  if (uiMode === "easy") { askSuggestion(item); return; }
-  if (item.type === "preset") {
-    seat.applyPreset(item.preset);
-    notify("🛋️", item.title, item.why);
-  } else if (item.type === "set") {
-    seat.setTarget(item.control, item.value);
-    notify("🎚️", item.title, item.why);
-  } else if (item.type === "massage") {
-    // The assistant ASKS before starting a massage.
-    askMassage(item);
-  } else {
-    notify("💧", item.title, item.why);
-  }
+  askSuggestion(item);
 }
 
 function notify(icon, title, body) {
@@ -657,8 +700,8 @@ function askMassage(item) {
   });
 }
 
-// Easy mode: turn any scheduled step into a friendly, one-tap yes/no suggestion
-// (e.g. "You've been seated a while — shall I recline you / start a massage?").
+// Turn every scheduled AI plan step into a one-tap yes/no suggestion. The seat
+// only moves after the passenger confirms.
 function askSuggestion(item) {
   let question = "", action = null, icon = "💧";
   if (item.type === "preset") {
@@ -709,7 +752,6 @@ function initSensorDemo() {
 
 function compartmentReminder() {
   if (!compartmentItem) return;   // nothing was left behind
-  seat.applyPreset("upright");
   setCompartmentState(true, true);  // pulse the item in the 3D view
   const title = t("forget_title");
   const body = t("forget_body");
